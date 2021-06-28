@@ -1,5 +1,6 @@
 import sqlite3
 
+import flask
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from flask_jwt import JWT, jwt_required
@@ -46,7 +47,10 @@ class UserRegister(Resource):
         connection.commit()
         connection.close()
 
-        return {'message': 'user created'}, 201
+        response = flask.jsonify({"message": 'user created'})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
+        return response, 201
 
 
 class Card(Resource):
