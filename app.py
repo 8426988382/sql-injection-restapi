@@ -9,7 +9,7 @@ from security import authenticate, identity
 from user import User
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 app.secret_key = '1234addfdg'
 api = Api(app)
 
