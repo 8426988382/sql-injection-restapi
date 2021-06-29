@@ -17,7 +17,7 @@ CORS(app)  # for cross platform interaction
 app.secret_key = '1234addfdg'
 api = Api(app)
 
-db.init_app(app)
+
 
 
 @app.before_first_request
@@ -31,4 +31,5 @@ api.add_resource(UserRegister, '/user/register')
 api.add_resource(Card, '/card/<string:username>')
 
 if __name__ == '__main__':
+    db.init_app(app)
     app.run(debug=True, port=5000)
