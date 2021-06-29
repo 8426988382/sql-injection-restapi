@@ -10,14 +10,18 @@ from resources.user import UserRegister
 from resources.card import Card
 from db import db
 
+uri = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)  # for cross platform interaction
 app.secret_key = '1234addfdg'
 api = Api(app)
 
-
+db.init_app(app)
 
 
 @app.before_first_request
@@ -31,5 +35,4 @@ api.add_resource(UserRegister, '/user/register')
 api.add_resource(Card, '/card/<string:username>')
 
 if __name__ == '__main__':
-    db.init_app(app)
     app.run(debug=True, port=5000)
