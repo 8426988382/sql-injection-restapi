@@ -1,9 +1,11 @@
+import datetime
 import os
 
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from flask_cors import CORS
+from datetime
 
 from security import authenticate, identity
 from resources.user import UserRegister
@@ -17,7 +19,7 @@ if uri.startswith("postgres://"):
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_EXPIRATION_DELTA'] = 100000
+app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(100000)
 CORS(app)  # for cross platform interaction
 app.secret_key = '1234addfdg'
 api = Api(app)
