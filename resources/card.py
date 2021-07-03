@@ -34,10 +34,17 @@ class Card(Resource):
     @jwt_required()
     def get(cls, username):
         query = "SELECT * FROM cards WHERE id in (SELECT id FROM users WHERE username='" + username + "')"
-        print(query)
 
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
+
+        """
+        query = "SELECT * FROM cards WHERE id in (SELECT id FROM users WHERE username=?)"
+        
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+        cursor.execute(query, (username, ))
+        """
 
         cards = []
         for _id, card_type, card_number, cvv, account_holder, phone_number in cursor.execute(query):

@@ -13,7 +13,6 @@ class CardModel(db.Model):
     account_holder = db.Column(db.String(80))
     phone_number = db.Column(db.String(20))
 
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, _id, card_type, card_number, cvv, account_holder, phone_number):
         self.id = _id

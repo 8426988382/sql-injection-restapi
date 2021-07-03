@@ -23,8 +23,12 @@ class UserModel(db.Model):
 
         # TODO: Improvement needed
         query = "SELECT * FROM users WHERE username='%s'" % username
-        print(query)
         result = cursor.execute(query)
+
+        """
+        query = "SELECT * FROM users WHERE username=?'
+        result = cursor.execute(query, (username, ))
+        """
 
         result = result.fetchone()
         if result:
@@ -42,8 +46,12 @@ class UserModel(db.Model):
 
         # TODO: Improvement needed
         query = "SELECT * FROM users WHERE id='%s'" % userid
-        print(query)
         result = cursor.execute(query)
+
+        """
+        query = "SELECT * FROM users WHERE id=?"
+        result = cursor.execute(query, (userid, ))
+        """
 
         result = result.fetchone()
         connection.close()
