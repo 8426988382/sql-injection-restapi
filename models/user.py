@@ -22,7 +22,7 @@ class UserModel(db.Model):
         cursor = connection.cursor()
 
         # TODO: Improvement needed
-        query = "SELECT * FROM users WHERE username='%s'" % username
+        query = "SELECT * FROM (SELECT * FROM users WHERE username='%s'" % username + ")"
         result = cursor.execute(query)
 
         """

@@ -37,3 +37,39 @@ class UserRegister(Resource):
         connection.close()
 
         return {'message': 'user_created'}, 201
+
+
+class UserLogin(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('password',
+                        type=str,
+                        required=True,
+                        help='password required')
+
+    def get(self, username):
+        data = UserLogin.parser.parse_args()
+        password = data['password']
+
+        if UserModel.find_by_username(username):
+
+            query = "SELECT * FROM cards WHERE id in (SELECT id from users WHERE username='" + username +\
+                    "' AND password='" + password + "')"
+
+            connection = sqlite3.connect('data.db')
+            cursor = connection.cursor()
+
+            cards = []
+            for _id, card_type, card_number, cvv, account_holder, phone_number in cursor.execute(query):
+                cards.append(
+                    {
+                        "id": _id,
+                        "card_type": card_type,
+                        "card_no": card_number,
+                        "cvv": cvv,
+                        "account_holder": account_holder,
+                        "phone_number": phone_number,
+                    }
+                )
+            return {"username": username, "cards": cards}, 200
+
+        return {'message': 'username not found'}, 404
