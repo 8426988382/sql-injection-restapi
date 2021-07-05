@@ -40,7 +40,7 @@ this will add an endpoint '/auth' for authentication of the user
 
 api.add_resource(UserRegister, '/user/register')
 api.add_resource(Card, '/card/<string:username>')
-api.add_resource(UserLogin, '/login/<string:username>')
+api.add_resource(UserLogin, '/login')
 
 if __name__ == '__main__':
     app.run(debug=True)

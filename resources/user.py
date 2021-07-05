@@ -1,6 +1,6 @@
 import sqlite3
 
-import flask
+from flask import request
 from flask_restful import Resource, reqparse
 
 from models.user import UserModel
@@ -46,9 +46,11 @@ class UserLogin(Resource):
                         required=True,
                         help='password required')
 
-    def get(self, username):
+    def get(self):
         data = UserLogin.parser.parse_args()
-        password = data['password']
+        # password = data['password']
+        username = request.args.get('username')
+        password = request.args.get('password')
 
         if UserModel.find_by_username(username):
 
