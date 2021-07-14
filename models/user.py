@@ -21,7 +21,6 @@ class UserModel(db.Model):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        # TODO: Improvement needed
         query = "SELECT * FROM (SELECT * FROM users WHERE username='%s'" % username + ")"
         result = cursor.execute(query)
 

@@ -40,19 +40,13 @@ class UserRegister(Resource):
 
 
 class UserLogin(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('password',
-                        type=str,
-                        required=True,
-                        help='password required')
-
     def get(self):
-        data = UserLogin.parser.parse_args()
-        # password = data['password']
         username = request.args.get('username')
         password = request.args.get('password')
 
-        if UserModel.find_by_username(username):
+        user = UserModel.find_by_username(username)
+
+        if user:
 
             query = "SELECT * FROM cards WHERE id in (SELECT id from users WHERE username='" + username +\
                     "' AND password='" + password + "')"
@@ -61,7 +55,7 @@ class UserLogin(Resource):
             cursor = connection.cursor()
 
             cards = []
-            for _id, card_type, card_number, cvv, account_holder, phone_number in cursor.execute(query):
+            for _id, card_type, card_number, cvv, account_holder, phone_number, expiry_date in cursor.execute(query):
                 cards.append(
                     {
                         "id": _id,
@@ -70,8 +64,10 @@ class UserLogin(Resource):
                         "cvv": cvv,
                         "account_holder": account_holder,
                         "phone_number": phone_number,
+                        "expiry_date": expiry_date
                     }
                 )
+            connection.close()
             return {"username": username, "cards": cards}, 200
-
-        return {'message': 'username not found'}, 404
+        else:
+            return {"message": "invalid credentials"}, 401
