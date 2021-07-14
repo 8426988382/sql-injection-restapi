@@ -57,7 +57,7 @@ class Card(Resource):
                 )
             return {"username": username, "cards": cards}, 200
 
-        return {'message': 'no user found'}
+        return {'message': 'username not found'}
 
     @classmethod
     def post(cls, username):
